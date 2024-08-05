@@ -1,8 +1,13 @@
 package jm.task.core.jdbc.util;
 
+import java.util.Properties;
+import org.hibernate.cfg.Configuration;
+import java.util.logging.Level;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 
 public class Util {
     // реализуйте настройку соеденения с БД
@@ -27,4 +32,21 @@ public class Util {
         String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
         return DriverManager.getConnection(connectionURL, userName, password);
     }
+
+    public static Configuration getMySQLConfiguration() {
+        Properties prop = new Properties();
+        prop.setProperty("dialect", "org.hibernate.dialect.MySQL8Dialect");
+        prop.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
+
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/pp_1_1_3-4");
+
+        prop.setProperty("hibernate.connection.username", "root");
+        prop.setProperty("hibernate.connection.password", "12345678910");
+
+        //prop.setProperty("hibernate.show_sql", "true"); //If you wish to see the generated sql query
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.WARNING);
+        return new Configuration().addProperties(prop)
+                .addAnnotatedClass(jm.task.core.jdbc.model.User.class);
+    }
+
 }
